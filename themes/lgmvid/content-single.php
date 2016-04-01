@@ -67,7 +67,13 @@
 	if ( !empty($talk_videos) ) {
 		foreach($talk_videos as $video) {
 			echo '<div class="lgm-video-player">';
-			echo do_shortcode( '[video src="'.$video.'"]' );
+			preg_match("/^https?:\\/\\/(?:www\\.)?youtube\\.com\\/watch\\?v=(.+)$/", $video, $ytmatches);
+			if ($ytmatches) {
+				$video_ytid = $ytmatches[1];
+				echo "<iframe width=\"640\" height=\"360\" src=\"https://www.youtube.com/embed/$video_ytid\" frameborder=\"0\" allowfullscreen></iframe>";
+			} else {
+			    	echo do_shortcode( '[video src="'.$video.'"]' );
+			}
 			echo '</div>';
 		}
 	}
